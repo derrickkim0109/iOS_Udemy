@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation // For sound
 
 class ViewController: UIViewController {
     
@@ -14,18 +15,14 @@ class ViewController: UIViewController {
     // ------------- //
     //  Properties
     // ------------- //
-    let softTime = 5
-    let mediumTime = 7
-    let hardTime = 12
+    
     
     let eggTimes = ["Soft": 10, "Medium" : 4, "Hard" : 7]
-    
-    
-    
+        
     var timer = Timer()
     var totalTime = 0
     var secondsPassed = 0
-    
+    var player : AVAudioPlayer!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
@@ -53,7 +50,7 @@ class ViewController: UIViewController {
         print(eggTimes[hardness]!)
         
         
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
         
     }
     
@@ -61,18 +58,20 @@ class ViewController: UIViewController {
     @objc func updateCounter() {
         //example functionality
         if secondsPassed < totalTime {
-            let percentageProgress = (Float(secondsPassed) / Float(totalTime))
-            print(percentageProgress)
-            progressBar.progress = percentageProgress
-            
-            print(percentageProgress)
-            
             secondsPassed += 1
+            progressBar.progress = (Float(secondsPassed) / Float(totalTime))
+            print((Float(secondsPassed) / Float(totalTime)))
+            
+            
             
         }else {
-            progressBar.progress = 1.0
             timer.invalidate()
             titleLabel.text = "Done"
+            progressBar.progress = 1.0
+            
+            let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
+            player = try! AVAudioPlayer(contentsOf: url!)
+            player.play()
         }
     }
 

@@ -203,7 +203,106 @@
 //
 
 
-let a = 5
-let b = 2
+//let a = 5
+//let b = 2
+//
+//print(Float(a) / Float(b))
+//
+//
+//struct Town{
+//
+//    let name :String = "Angelaland"
+//    var citizens = ["Angela", "Jack Bauer"]
+//    var resources = ["Grain": 100, "Ore": 42, "Wool" : 75]
+//
+//    func fortify(){
+//        print("Defences increased!")
+//    }
+//
+//}
+//
+//var myTown = Town()
+//
+//print(myTown.citizens)
+//print("\(myTown.name) has \(myTown.resources["Grain"]!) bags of grain")
+//
+//myTown.citizens.append("Keanu Reeves")
+//print(myTown.citizens.count)
+//
+//myTown.fortify()
+//struct Town{
+//
+//    let name :String
+//    var citizens : [String]
+//    var resources: [String: Int]
+//
+//    init(name : String, citizens: [String], resources : [String:Int]) {
+//        self.name = name
+//        self.citizens = citizens
+//        self.resources = resources
+//
+//    }
+//
+//    func fortify(){
+//        print("Defences increased!")
+//    }
+//
+//}
+//
+//var anotherTown = Town(name: "Nameless Island", citizens: ["Derrick", "Shon Bo young", "Mom"], resources: ["Coconuts": 1000])
+//anotherTown.citizens.append("Wilson")
+//print(anotherTown.citizens)
+//
+//
+//var ghostTown = Town(name: "Ghosty McGhostface", citizens: [], resources: ["Tunbleweed": 1])
+//ghostTown.fortify()
+//func exercise() {
+//
+//    // Define the User struct here
+//    struct User {
+//        let name : String
+//        var email : String?
+//        var followers : Int
+//        var isActive : Bool
+//
+//        init(name : String, email : String, followers : Int, isActive: Bool){
+//            self.name = name
+//            self.email = email
+//            self.followers = followers
+//            self.isActive = isActive
+//
+//        }
+//        func logStatus(){
+//            if isActive {
+//                print("\(name) is working hard.")
+//            }else{
+//                print("\(name) has left earth.")
+//            }
+//        }
+//    }
+//
+//    // Initialise a User struct here
+//    User(name: "Richard", email: "", followers: 0, isActive: false).logStatus()
+//
+//    // Diagnostic code - do not change this code
+//    print("\nDiagnostic code (i.e., Challenge Hint):")
+//    var musk = User(name: "Elon", email: "elon@tesla.com", followers: 2001, isActive: true)
+//    musk.logStatus()
+//    print("Contacting \(musk.name) on \(musk.email!) ...")
+//    print("\(musk.name) has \(musk.followers) followers")
+//    // sometime later
+//    musk.isActive = false
+//    musk.logStatus()
+//
+//}
+//exercise()
+func isOdd(n: Int) -> Bool {
 
-print(Float(a) / Float(b))
+    if n % 2 == 0 {
+        return true
+    }else{
+        return false
+    }
+}
+
+isOdd(n: 52)
