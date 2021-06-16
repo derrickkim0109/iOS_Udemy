@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		491F3DA1267980E200056452 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491F3DA0267980E200056452 /* Extensions.swift */; };
 		55F077B12664752500448984 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F077B02664752500448984 /* AppDelegate.swift */; };
 		55F077B32664752500448984 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F077B22664752500448984 /* SceneDelegate.swift */; };
 		55F077B52664752500448984 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F077B42664752500448984 /* ConversationsViewController.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		491F3DA0267980E200056452 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		55F077AD2664752500448984 /* Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F077B02664752500448984 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55F077B22664752500448984 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				55F077B02664752500448984 /* AppDelegate.swift */,
 				55F077B22664752500448984 /* SceneDelegate.swift */,
+				491F3DA0267980E200056452 /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 				55F077D42664776B00448984 /* NewConversationViewController.swift in Sources */,
 				55F077B52664752500448984 /* ConversationsViewController.swift in Sources */,
 				55F077D22664775A00448984 /* VideoPlayerViewController.swift in Sources */,
+				491F3DA1267980E200056452 /* Extensions.swift in Sources */,
 				55F077B12664752500448984 /* AppDelegate.swift in Sources */,
 				55F077D62664777800448984 /* ProfileViewController.swift in Sources */,
 				55F077B32664752500448984 /* SceneDelegate.swift in Sources */,
