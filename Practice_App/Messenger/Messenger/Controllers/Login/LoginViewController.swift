@@ -6,19 +6,21 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FBSDKLoginKit
 
 class LoginViewController: UIViewController {
-
+    
     // Properties
     
     private let scrollView: UIScrollView = {
-      let scrollView = UIScrollView()
+        let scrollView = UIScrollView()
         scrollView.clipsToBounds = true
-      return scrollView
+        return scrollView
     }()
     
     private let imageView: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.image = UIImage(named: "logo")
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -75,23 +77,37 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private let facebookLoginButton : FBLoginButton = {
+        let button = FBLoginButton()
+        button.permissions = ["public_profile", "email"]
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "Log In"
-        view.backgroundColor = .white 
+        view.backgroundColor = .white
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(didTapRegister))
+        
+        loginButton.addTarget(self,
+                              action: #selector(loginButtonTapped),
+                              for: .touchUpInside)
+        
+        facebookLoginButton.delegate = self
+        
         // Add subview
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
         scrollView.addSubview(emailField)
         scrollView.addSubview(passwordField)
         scrollView.addSubview(loginButton)
-
+        scrollView.addSubview(facebookLoginButton)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -111,27 +127,60 @@ class LoginViewController: UIViewController {
                                   height: 52)
         // Password
         passwordField.frame = CGRect(x: 30,
-                                  y: emailField.bottom + 20,
-                                  width: scrollView.width - 60,
-                                  height: 52)
+                                     y: emailField.bottom + 20,
+                                     width: scrollView.width - 60,
+                                     height: 52)
         
         // Button
         loginButton.frame = CGRect(x: 30,
-                                  y: passwordField.bottom + 20,
-                                  width: scrollView.width - 60,
-                                  height: 52)
+                                   y: passwordField.bottom + 20,
+                                   width: scrollView.width - 60,
+                                   height: 52)
         
+        // Facebook Login Button
+        facebookLoginButton.frame = CGRect(x: 30,
+                                   y: loginButton.bottom + 20,
+                                   width: scrollView.width - 60,
+                                   height: 52)
+        facebookLoginButton.frame.origin.y = loginButton.bottom + 20
     }
     
     @objc private func loginButtonTapped(){
+        
+        emailField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+        
         guard let email = emailField.text, let password = passwordField.text,
               !email.isEmpty, !password.isEmpty, password.count >= 6 else {
-            return
-        }
+                  return
+              }
+        
+        // Firebase Log In
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] authResult, error in
+            guard let strongSelf = self else {
+                return
+            }
+            guard let result = authResult, error == nil else {
+                print("Failed to log in user with email : \(email)")
+                return
+            }
+            let user = result.user
+            print("Logged In User : \(user)")
+            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+        })
     }
+    
     func alertUserLoginError() {
-        <#function body#>
+        
+        let alert = UIAlertController(title: "Woops",
+                                      message: "Please enter all information to log in",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss",
+                                      style: .cancel,
+                                      handler: nil))
+        present(alert, animated: true, completion: nil)
     }
+    
     
     @objc private func didTapRegister(){
         let vc = RegisterViewController()
@@ -139,15 +188,38 @@ class LoginViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension LoginViewController : LoginButtonDelegate {
+    
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+        // no operation
     }
-    */
 
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        guard let token = result?.token?.tokenString else {
+            print("User failed to log in with facebook")
+            return
+        }
+        
+        let credential = FacebookAuthProvider.credential(withAccessToken: token)
+        
+        FirebaseAuth.Auth.auth().signIn(with: credential, completion: { [weak self] authResult, error in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            guard authResult != nil, error == nil else {
+                print("Facebook credential login failed, MFA may be needed")
+                
+                return
+            }
+            
+            print("Successfully logged user in")
+            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+        })
+    }
+    
+    
 }
