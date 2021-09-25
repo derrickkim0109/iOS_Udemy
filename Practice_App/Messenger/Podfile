@@ -1,4 +1,4 @@
-# Uncomment the next line to define a global platform for your project
+ # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
 target 'Messenger' do
@@ -11,4 +11,8 @@ pod 'Firebase/Database'
 
 # Facebook
 pod 'FBSDKLoginKit'
+
+# Google Sign In 
+pod 'GoogleSignIn'
+
 end
